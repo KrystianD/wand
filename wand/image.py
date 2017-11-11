@@ -535,6 +535,10 @@ IMAGE_LAYER_METHOD = ('undefined', 'coalesce', 'compareany', 'compareclear',
                       'removezero', 'composite', 'merge', 'flatten', 'mosaic',
                       'trimbounds')
 
+INTERLACE_TYPES =    ('undefinedinterlace', 'nointerlace',
+                      'lineinterlace', 'planeinterlace',
+                      'partitioninterlace', 'gifinterlace',
+                      'jpeginterlace', 'pnginterlace')
 
 def manipulative(function):
     """Mark the operation manipulating itself instead of returning new one."""
@@ -1076,6 +1080,17 @@ class BaseImage(Resource):
             raise TypeError('Unit value must be a string from wand.images.'
                             'UNIT_TYPES, not ' + repr(units))
         r = library.MagickSetImageUnits(self.wand, UNIT_TYPES.index(units))
+        if not r:
+            self.raise_exception()
+
+    @property
+    def interlace(self):
+        return INTERLACE_TYPES[library.MagickGetInterlaceScheme(self.wand)]
+
+    @interlace.setter
+    @manipulative
+    def interlace(self, interlace_type):
+        r = library.MagickSetInterlaceScheme(self.wand, INTERLACE_TYPES.index(interlace_type))
         if not r:
             self.raise_exception()
 

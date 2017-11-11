@@ -1950,3 +1950,9 @@ def test_page_setter_items(fx_asset):
         assert img1.page == (6400, 4800, -12, 13)
         img1.page_y = -13
         assert img1.page == (6400, 4800, -12, -13)
+
+def test_set_interlace(fx_asset):
+    """Sets image interlace with integer as parameter."""
+    with Image(filename=str(fx_asset.join('mona-lisa.jpg'))) as img:
+        img.interlace = "planeinterlace"
+        assert img.interlace == "planeinterlace"

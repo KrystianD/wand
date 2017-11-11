@@ -1392,6 +1392,10 @@ try:
                                             ctypes.c_bool,
                                             ctypes.c_bool]
 
+    library.MagickGetInterlaceScheme.argtypes = [ctypes.c_void_p]
+
+    library.MagickSetInterlaceScheme.argtypes = [ctypes.c_void_p, ctypes.c_int]
+
 except AttributeError:
     raise ImportError('MagickWand shared library not found or incompatible\n'
                       'Original exception was raised in:\n' +
